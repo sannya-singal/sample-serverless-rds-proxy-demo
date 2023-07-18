@@ -37,7 +37,7 @@ The following diagram shows the architecture that this sample application builds
 * [Serverless Application Model](https://docs.localstack.cloud/user-guide/integrations/aws-sam/) with the [samlocal](https://github.com/localstack/aws-sam-cli-local) installed.
 * [Python 3.9 installed](https://www.python.org/downloads/).
 * [Artillery](https://artillery.io/docs/guides/overview/welcome.html) to generate some load towards both the apis.
-* [`yq`](https://github.com/mikefarah/yq#install) and[`jq`](https://jqlang.github.io/jq/download/) for the running the deployment script. 
+* [`yq`](https://github.com/mikefarah/yq#install) and[`jq`](https://jqlang.github.io/jq/download/) for running the deployment script. 
 
 Start LocalStack Pro with the `LOCALSTACK_API_KEY` pre-configured:
 
@@ -105,10 +105,6 @@ executing [above steps](#deploy-serverless-workload-using-rds-aurora-as-backend)
     artillery run load-proxy.yml
 ``` 
 
-## Security
+## Contributing
 
-See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
-
-## License
-
-This library is licensed under the MIT-0 License. See the LICENSE file.
+We appreciate your interest in contributing to our project and are always looking for new ways to improve the developer experience. We welcome feedback, bug reports, and even feature ideas from the community. Please refer to the [contributing file](https://github.com/localstack/sample-serverless-rds-proxy-demo/blob/main/CONTRIBUTING.md) for more details on how to get started.
