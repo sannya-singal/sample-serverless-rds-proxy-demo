@@ -52,18 +52,18 @@ jobs:
         run: |
           make install
 
-      # - name: Start LocalStack
-      #   env:
-      #     LOCALSTACK_API_KEY: ${{ secrets.LOCALSTACK_API_KEY }}
-      #     DNS_ADDRESS: 0
-      #   run: |
-      #     docker pull localstack/localstack-pro:latest
-      #     # Start LocalStack in the background
-      #     LS_LOG=trace localstack start -d
-      #     # Wait 30 seconds for the LocalStack container to become ready before timing out
-      #     echo "Waiting for LocalStack startup..."
-      #     localstack wait -t 15
-      #     echo "Startup complete"
+      - name: Start LocalStack
+        env:
+          LOCALSTACK_API_KEY: ${{ secrets.LOCALSTACK_API_KEY }}
+          DNS_ADDRESS: 0
+        run: |
+          docker pull localstack/localstack-pro:latest
+          # Start LocalStack in the background
+          LS_LOG=trace localstack start -d
+          # Wait 30 seconds for the LocalStack container to become ready before timing out
+          echo "Waiting for LocalStack startup..."
+          localstack wait -t 15
+          echo "Startup complete"
 
       - name: Deploy the application
         run: |
