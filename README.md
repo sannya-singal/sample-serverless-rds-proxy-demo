@@ -36,7 +36,8 @@ The following diagram shows the architecture that this sample application builds
 * LocalStack Pro with the [`localstack` CLI](https://docs.localstack.cloud/getting-started/installation/#localstack-cli).
 * [Serverless Application Model](https://docs.localstack.cloud/user-guide/integrations/aws-sam/) with the [samlocal](https://github.com/localstack/aws-sam-cli-local) installed.
 * [Python 3.9 installed](https://www.python.org/downloads/).
-* [Artillery](https://artillery.io/docs/guides/overview/welcome.html) for load testing of the application.
+* [Artillery](https://artillery.io/docs/guides/overview/welcome.html) to generate some load towards both the apis.
+* [`yq`](https://github.com/mikefarah/yq#install) and[`jq`](https://jqlang.github.io/jq/download/) for the running the deployment script. 
 
 Start LocalStack Pro with the `LOCALSTACK_API_KEY` pre-configured:
 
@@ -74,15 +75,6 @@ Pass required parameters during guided deploy.
 ```bash
     samlocal build --use-container
     samlocal deploy --guided
-```
-
-### Installing artillery
-
-We will use [artillery](https://artillery.io/docs/guides/overview/welcome.html) to generate some load towards both the apis. 
-Install Artillery via npm:
-
-```
-    npm install -g artillery@latest
 ```
 
 ## Load testing
