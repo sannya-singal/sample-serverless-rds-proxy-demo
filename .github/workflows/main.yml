@@ -15,7 +15,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  serverless:infrastructure-check:
+  serverless:
     name: Setup infrastructure using Serverless Framework
     runs-on: ubuntu-latest
     steps:
@@ -92,4 +92,3 @@ jobs:
         with:
           name: diagnose.json.gz
           path: ./diagnose.json.gz
-          
