@@ -1,68 +1,83 @@
-# serverless-rds-proxy-demo
+# Serverless RDS Proxy Demo
+
+| Key          | Value                                                                |
+| ------------ | -------------------------------------------------------------------- |
+| Environment  | <img src="https://img.shields.io/badge/LocalStack-deploys-4D29B4.svg?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAKgAAACoABZrFArwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAALbSURBVHic7ZpNaxNRFIafczNTGIq0G2M7pXWRlRv3Lusf8AMFEQT3guDWhX9BcC/uFAr1B4igLgSF4EYDtsuQ3M5GYrTaj3Tmui2SpMnM3PlK3m1uzjnPw8xw50MoaNrttl+r1e4CNRv1jTG/+v3+c8dG8TSilHoAPLZVX0RYWlraUbYaJI2IuLZ7KKUWCisgq8wF5D1A3rF+EQyCYPHo6Ghh3BrP8wb1en3f9izDYlVAp9O5EkXRB8dxxl7QBoNBpLW+7fv+a5vzDIvVU0BELhpjJrmaK2NMw+YsIxunUaTZbLrdbveZ1vpmGvWyTOJToNlsuqurq1vAdWPMeSDzwzhJEh0Bp+FTmifzxBZQBXiIKaAq8BBDQJXgYUoBVYOHKQRUER4mFFBVeJhAQJXh4QwBVYeHMQJmAR5GCJgVeBgiYJbg4T8BswYPp+4GW63WwvLy8hZwLcd5TudvBj3+OFBIeA4PD596nvc1iiIrD21qtdr+ysrKR8cY42itCwUP0Gg0+sC27T5qb2/vMunB/0ipTmZxfN//orW+BCwmrGV6vd63BP9P2j9WxGbxbrd7B3g14fLfwFsROUlzBmNM33XdR6Meuxfp5eg54IYxJvXCx8fHL4F3w36blTdDI4/0WREwMnMBeQ+Qd+YC8h4g78wF5D1A3rEqwBiT6q4ubpRSI+ewuhP0PO/NwcHBExHJZZ8PICI/e73ep7z6zzNPwWP1djhuOp3OfRG5kLROFEXv19fXP49bU6TbYQDa7XZDRF6kUUtEtoFb49YUbh/gOM7YbwqnyG4URQ/PWlQ4ASllNwzDzY2NDX3WwioKmBgeqidgKnioloCp4aE6AmLBQzUExIaH8gtIBA/lFrCTFB7KK2AnDMOrSeGhnAJSg4fyCUgVHsolIHV4KI8AK/BQDgHW4KH4AqzCQwEfiIRheKKUAvjuuu7m2tpakPdMmcYYI1rre0EQ1LPo9w82qyNziMdZ3AAAAABJRU5ErkJggg=="> |
+| Services     | API gateway, RDS Proxy, Lambda, Amazon Aurora                                    |
+| Integrations | Serverless Framework, SAM, AWS SDK, Cloudformation     |
+| Categories   | Serverless, Lambda Functions, Load Testing |
+| Level        | Intermediate                                                         |
+| Github       | [Repository link](https://github.com/localstack/sample-serverless-rds-proxy-demo) |     
+
+
+# Introduction
 
 This project demos benefits of using RDS proxy with serverless workload which depends on relational database like RDS Aurora.
-Project shows end to end automated setup of RDS Aurora(Mysql) with RDS proxy. Basic serverless architecture is set up 
+Project shows end to end automated setup of RDS Aurora(PostgreSQL) with RDS proxy. Basic serverless architecture is set up 
 using API gateway HTTP API and Lambda Functions.
 
 Project sets up two endpoints with HTTP API, one which talks directly to RDS Aurora cluster and the other which talks 
 via RDS Proxy. It provides load testing setup to measure the benefits of using RDS proxy in terms of connection pooling 
 and elasticity.
 
-This project assumes you already have RDS Aurora Mysql cluster up and running. An RDS proxy instance
+This project assumes you already have RDS Aurora PostgreSQL cluster up and running. An RDS proxy instance
 is also setup with force IAM authentication enabled. You can choose to create rds cluster with proxy following 
 steps [below](#deploy-rds-aurora-cluster-with-rds-proxy) to have aurora cluster and 
 RDS proxy setup.
 
 ## Architecture
 
+The following diagram shows the architecture that this sample application builds and deploys:
 ![img.png](images/architecture.png)
 
 
-## Deploy the sample application
+## Prerequisites
 
-The Serverless Application Model Command Line Interface (SAM CLI) is an extension of the AWS CLI that adds functionality for building and testing Lambda applications. 
-It uses Docker to run your functions in an Amazon Linux environment that matches Lambda. It can also emulate your application's build environment and API.
+* LocalStack Pro with the [`localstack` CLI](https://docs.localstack.cloud/getting-started/installation/#localstack-cli).
+* [Serverless Application Model](https://docs.localstack.cloud/user-guide/integrations/aws-sam/) with the [samlocal](https://github.com/localstack/aws-sam-cli-local) installed.
+* [Python 3.9 installed](https://www.python.org/downloads/).
+* [Artillery](https://artillery.io/docs/guides/overview/welcome.html) to generate some load towards both the apis.
+* [`yq`](https://github.com/mikefarah/yq#install) and[`jq`](https://jqlang.github.io/jq/download/) for running the deployment script. 
 
-To use the SAM CLI, you need the following tools.
+Start LocalStack Pro with the `LOCALSTACK_API_KEY` pre-configured:
 
-* SAM CLI - [Install the SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
-* [Python 3.9 installed](https://www.python.org/downloads/)
-* Docker - [Install Docker community edition](https://hub.docker.com/search/?type=edition&offering=community)
+```shell
+export LOCALSTACK_API_KEY=<your-api-key>
+localstack start
+```
 
-## Deploy RDS Aurora Cluster with RDS Proxy
+> If you prefer running LocalStack in detached mode, you can add the `-d` flag to the `localstack start` command, and use Docker Desktop to view the logs.
+
+## Instructions
+
+You can build and deploy the sample application on LocalStack by running our `Makefile` commands. Run `make deploy` to create the infrastructure on LocalStack. Run `make stop` to delete the infrastructure by stopping LocalStack.
+
+Alternatively, here are instructions to deploy it manually step-by-step.
+
+### Deploy RDS Aurora Cluster with RDS Proxy
 
 **Note:** If you have already provisioned RDS Aurora cluster with RDS Proxy, you can skip 
 this step and follow [these steps](#deploy-serverless-workload-using-rds-aurora-as-backend) instead.
 
-This stack will take care of provisioning RDS Aurora Mysql along with RDS proxy fronting it inside
+This stack will take care of provisioning RDS Aurora PostgreSQL along with RDS proxy fronting it inside
 a VPC with 3 private subnet. Required parameters needed by [next step](#deploy-serverless-workload-using-rds-aurora-as-backend)
 is also provided as stack output.
 
 ```bash
-    sam build -t rds-with-proxy.yaml --use-container
-    sam deploy -t rds-with-proxy.yaml --guided
+    samlocal build -t rds-with-proxy.yaml --use-container
+    samlocal deploy -t rds-with-proxy.yaml --guided
 ```
-## Deploy serverless workload using RDS Aurora as backend
+### Deploy serverless workload using RDS Aurora as backend
 
 To build and deploy your application for the first time, run the following in your shell:
 Pass required parameters during guided deploy.
 
 ```bash
-    sam build --use-container
-    sam deploy --guided
+    samlocal build --use-container
+    samlocal deploy --guided
 ```
-
 
 ## Load testing
-
-### Installing artillery
-
-We will use [artillery](https://artillery.io/docs/guides/overview/welcome.html) to generate some load towards both the apis. 
-Install Artillery via npm:
-
-```
-    npm install -g artillery@latest
-```
 
 ### Checking your installation
 
@@ -76,7 +91,7 @@ You should see an ASCII dinosaur printed to the terminal. Something like this:
 
 ![img.png](images/artillery.png)
 
-### Testing
+### Testing the application
 
 Before starting load testing, make sure `target` in files `load-no-proxy.yml` and  `load-proxy.yml` is update with the 
 created HTTP API endpoint. The endpoint is also provided as stack output `ApiBasePath` when 
@@ -88,18 +103,8 @@ executing [above steps](#deploy-serverless-workload-using-rds-aurora-as-backend)
 
 ```
     artillery run load-proxy.yml
-```
+``` 
 
-For a sample load which ran 300 seconds with arrival rate for users at 100, i.e. 30000 request over 5 minutes, below is
-comparison of number of database connection used when connecting via RDS proxy vs directly to RDS Aurora cluster endpoint.
+## Contributing
 
-![img.png](images/metrics.png)
- 
-
-## Security
-
-See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
-
-## License
-
-This library is licensed under the MIT-0 License. See the LICENSE file.
+We appreciate your interest in contributing to our project and are always looking for new ways to improve the developer experience. We welcome feedback, bug reports, and even feature ideas from the community. Please refer to the [contributing file](https://github.com/localstack/sample-serverless-rds-proxy-demo/blob/main/CONTRIBUTING.md) for more details on how to get started.
