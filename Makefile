@@ -11,6 +11,7 @@ usage:
 install:
 		@which localstack || pip install localstack
 		@which samlocal || pip install aws-sam-cli-local
+		@which artillery || npm install -g artillery@latest
 
 ## Deploy the RDS Serverless Application to LocalStack
 deploy:
