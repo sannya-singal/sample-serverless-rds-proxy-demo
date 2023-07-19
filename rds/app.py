@@ -25,7 +25,6 @@ def db_ops():
             port=4510,
         )
     except psycopg2.Error as e:
-        print(e)
         return e
 
     return connection
