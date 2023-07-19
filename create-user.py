@@ -38,5 +38,4 @@ conn.commit()
 query = "grant rds_iam to test_iam_user"
 cursor.execute(query)
 conn.commit()
-
     
