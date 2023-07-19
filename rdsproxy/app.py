@@ -34,7 +34,7 @@ def db_ops():
         # create a connection object
         connection = psycopg2.connect(
             host=environ.get('LOCALSTACK_HOSTNAME'),
-            database=environ.get('database'),
+            database="mylab",
             user=username,
             password=token,
             port= 4510,
