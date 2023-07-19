@@ -112,6 +112,12 @@ executing [above steps](#deploy-serverless-workload-using-rds-aurora-as-backend)
     artillery run load-proxy.yml
 ``` 
 
+### GitHub Actions
+
+This application sample hosts an example GitHub Action workflow that starts up LocalStack, builds the Lambda functions, and deploys the infrastructure on the runner. You can find the workflow in the `.github/workflows/main.yml` file. To run the workflow, you can fork this repository and push a commit to the `main` branch.
+
+Users can adapt this example workflow to run in their own CI environment. LocalStack supports various CI environments, including GitHub Actions, CircleCI, Jenkins, Travis CI, and more. You can find more information about the CI integration in the [LocalStack documentation](https://docs.localstack.cloud/user-guide/ci/).
+
 ## Contributing
 
 We appreciate your interest in contributing to our project and are always looking for new ways to improve the developer experience. We welcome feedback, bug reports, and even feature ideas from the community. Please refer to the [contributing file](https://github.com/localstack/sample-serverless-rds-proxy-demo/blob/main/CONTRIBUTING.md) for more details on how to get started.
