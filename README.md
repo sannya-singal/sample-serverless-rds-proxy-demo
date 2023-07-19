@@ -30,6 +30,12 @@ RDS proxy setup.
 The following diagram shows the architecture that this sample application builds and deploys:
 ![img.png](images/architecture.png)
 
+We are using the following AWS services to build our infrastructure:
+
+* [Lambda](https://docs.localstack.cloud/user-guide/aws/lambda/) to create the serverless functions for `/proxy` and `/no-proxy`.
+* [API Gateway](https://docs.localstack.cloud/user-guide/aws/apigateway/) to expose the Lambda functions to the user through HTTP APIs.
+* [RDS](https://docs.localstack.cloud/user-guide/aws/rds/) as the central part of the sample application.
+* [Serverless Framework](https://www.serverless.com/) as our Infrastructure as Code framework to deploy the infrastructure on LocalStack.
 
 ## Prerequisites
 
@@ -105,6 +111,12 @@ executing [above steps](#deploy-serverless-workload-using-rds-aurora-as-backend)
 ```
     artillery run load-proxy.yml
 ``` 
+
+### GitHub Actions
+
+This application sample hosts an example GitHub Action workflow that starts up LocalStack, builds the Lambda functions, and deploys the infrastructure on the runner. You can find the workflow in the `.github/workflows/main.yml` file. To run the workflow, you can fork this repository and push a commit to the `main` branch.
+
+Users can adapt this example workflow to run in their own CI environment. LocalStack supports various CI environments, including GitHub Actions, CircleCI, Jenkins, Travis CI, and more. You can find more information about the CI integration in the [LocalStack documentation](https://docs.localstack.cloud/user-guide/ci/).
 
 ## Contributing
 
