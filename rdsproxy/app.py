@@ -41,7 +41,6 @@ def db_ops():
         )
 
     except psycopg2.Error as e:
-        print(e)
         return e
 
     return connection
@@ -49,7 +48,6 @@ def db_ops():
 
 def lambda_handler(event, context):
     conn = db_ops()
-    print("connection rds proxy : ", conn)
     cursor = conn.cursor()
     query = "SELECT version()"
     cursor.execute(query)
