@@ -30,6 +30,12 @@ RDS proxy setup.
 The following diagram shows the architecture that this sample application builds and deploys:
 ![img.png](images/architecture.png)
 
+We are using the following AWS services to build our infrastructure:
+
+* [Lambda](https://docs.localstack.cloud/user-guide/aws/lambda/) to create the serverless functions for `/proxy` and `/no-proxy`.
+* [API Gateway](https://docs.localstack.cloud/user-guide/aws/apigateway/) to expose the Lambda functions to the user through HTTP APIs.
+* [RDS](https://docs.localstack.cloud/user-guide/aws/rds/) as the central part of the sample application.
+* [Serverless Framework](https://www.serverless.com/) as our Infrastructure as Code framework to deploy the infrastructure on LocalStack.
 
 ## Prerequisites
 
