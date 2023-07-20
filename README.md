@@ -16,12 +16,12 @@ This project demos benefits of using RDS proxy with serverless workload which de
 Project shows end to end automated setup of RDS Aurora(PostgreSQL) with RDS proxy. Basic serverless architecture is set up 
 using API gateway HTTP API and Lambda Functions.
 
-Project sets up two endpoints with HTTP API, one which talks directly to RDS Aurora cluster and the other which talks 
+This sample sets up two endpoints with HTTP API, one which talks directly to RDS Aurora cluster and the other one which talks 
 via RDS Proxy. It provides load testing setup to measure the benefits of using RDS proxy in terms of connection pooling 
 and elasticity.
 
 This project assumes you already have RDS Aurora PostgreSQL cluster up and running. An RDS proxy instance
-is also setup with force IAM authentication enabled. You can choose to create rds cluster with proxy following 
+is also setup with force IAM authentication enabled. You can choose to create the RDS cluster with proxy following 
 steps [below](#deploy-rds-aurora-cluster-with-rds-proxy) to have aurora cluster and 
 RDS proxy setup.
 
@@ -84,6 +84,14 @@ Pass required parameters during guided deploy.
     samlocal deploy --guided
 ```
 
+### Create a user with `rds_iam` role
+
+To create a user which requires no password and has `rds_iam` role granted use the below command:
+
+```bash
+    python create-user.py
+```
+
 ## Load testing
 
 ### Checking your installation
@@ -100,7 +108,7 @@ You should see an ASCII dinosaur printed to the terminal. Something like this:
 
 ### Testing the application
 
-Before starting load testing, make sure `target` in files `load-no-proxy.yml` and  `load-proxy.yml` is update with the 
+Before starting load testing, make sure to update the `target` attribute in the files `load-no-proxy.yml` and  `load-proxy.yml` is update with the 
 created HTTP API endpoint. The endpoint is also provided as stack output `ApiBasePath` when 
 executing [above steps](#deploy-serverless-workload-using-rds-aurora-as-backend). You can generate load on both the APIs via:
 
