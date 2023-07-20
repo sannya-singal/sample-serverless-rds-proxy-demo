@@ -108,7 +108,7 @@ You should see an ASCII dinosaur printed to the terminal. Something like this:
 
 ### Testing the application
 
-Before starting load testing, make sure to update the `target` attribute in the files `load-no-proxy.yml` and  `load-proxy.yml` is update with the 
+Before starting with load testing, make sure to update the `target` attribute in the files `load-no-proxy.yml` and  `load-proxy.yml` is update with the 
 created HTTP API endpoint. The endpoint is also provided as stack output `ApiBasePath` when 
 executing [above steps](#deploy-serverless-workload-using-rds-aurora-as-backend). You can generate load on both the APIs via:
 
